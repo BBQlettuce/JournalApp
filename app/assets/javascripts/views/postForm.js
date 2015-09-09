@@ -28,7 +28,9 @@ JournalApp.Views.PostForm = Backbone.View.extend({
 
       error: function(model, response) {
         this.$el.append(response.responseText);
-      }.bind(this)
+      }.bind(this),
+
+      wait: true
     });
 
   }
