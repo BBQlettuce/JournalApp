@@ -5,6 +5,10 @@ JournalApp.Views.PostIndex = Backbone.View.extend({
     this.listenTo(this.collection, "reset", this.render);
   },
 
+  events: {
+    "click .new-post-button": "newPost"
+  },
+
   template: JST['postIndex'],
 
   refreshPosts: function(callback) {
@@ -20,5 +24,9 @@ JournalApp.Views.PostIndex = Backbone.View.extend({
       var postItem = new JournalApp.Views.PostIndexItem({model: post});
       this.$el.find('ul').append(postItem.render().$el);
     }.bind(this))
+  },
+
+  newPost: function() {
+    Backbone.history.navigate("posts/new", { trigger: true });
   }
 });

@@ -4,7 +4,7 @@ JournalApp.Views.PostForm = Backbone.View.extend({
   },
 
   events: {
-    "submit form": "editPost"
+    "submit form": "editOrCreatePost"
   },
 
   template: JST['postForm'],
@@ -14,7 +14,7 @@ JournalApp.Views.PostForm = Backbone.View.extend({
     return this;
   },
 
-  editPost: function(e) {
+  editOrCreatePost: function(e) {
     e.preventDefault();
 
     var $form = $(e.currentTarget);
@@ -22,11 +22,13 @@ JournalApp.Views.PostForm = Backbone.View.extend({
 
     this.model.save(formInputs.post, {
       success: function() {
-        Backbone.history.navigate("posts/" + this.model.id, {trigger: true})
+        this.collection.add(this.model);
+        Backbone.history.navigate("posts/" + this.model.id, {trigger: true});
+      }.bind(this),
+
+      error: function(model, response) {
+        this.$el.append(response.responseText);
       }.bind(this)
-      // failure: function() {
-      //
-      // }
     });
 
   }
