@@ -8,8 +8,8 @@ JournalApp.Views.PostShow = Backbone.View.extend({
     "click .delete-post": "deletePost",
     "dblclick .title": "editTitle",
     "dblclick .body": "editBody",
-    "blur .title": "updateTitle",
-    "blur .body": "updateBody"
+    "blur .title": "updateAttribute",
+    "blur .body": "updateAttribute"
   },
 
   template: JST['postShow'],
@@ -33,7 +33,7 @@ JournalApp.Views.PostShow = Backbone.View.extend({
     e.preventDefault();
     var $title = $(e.currentTarget);
     var $input = $("<input>");
-    $input.attr("type", "text").attr("name", "post[title]").val($title.html());
+    $input.attr("type", "text").attr("name", "title").val($title.html());
     $title.html($input);
   },
 
@@ -41,23 +41,19 @@ JournalApp.Views.PostShow = Backbone.View.extend({
     e.preventDefault();
     var $body = $(e.currentTarget);
     var $textarea = $("<textarea>");
-    $textarea.attr("name", "post[body]").val($body.html());
+    $textarea.attr("name", "body").val($body.html());
     $body.html($textarea);
   },
 
-  updateTitle: function(e) {
-    debugger 
+  updateAttribute: function(e) {
     e.preventDefault();
-    var newTitle = $(e.target).val();
-
-    this.model.save({ title: newTitle });
-  },
-
-  updateBody: function(e) {
-    debugger
-    e.preventDefault();
-    var newBody = $(e.target).val();
-
-    this.model.save({ body: newBody });
+    var attrName = $(e.target).attr('name');
+    var newAttr = $(e.target).val();
+    if (attrName === "title") {
+      this.model.save({ title: newAttr });
+    } else {
+      this.model.save({ body: newAttr });
+    };
   }
+
 });
