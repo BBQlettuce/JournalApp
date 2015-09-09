@@ -4,7 +4,8 @@ JournalApp.Views.PostShow = Backbone.View.extend({
   },
 
   events: {
-    "click .edit-post": "editPost"
+    "click .edit-post": "editPost",
+    "click .delete-post": "deletePost"
   },
 
   template: JST['postShow'],
@@ -17,5 +18,10 @@ JournalApp.Views.PostShow = Backbone.View.extend({
 
   editPost: function() {
     Backbone.history.navigate("posts/" + this.model.id + "/edit", { trigger: true });
+  },
+
+  deletePost: function() {
+    this.model.destroy();
+    Backbone.history.navigate("", {trigger: true})
   }
 });

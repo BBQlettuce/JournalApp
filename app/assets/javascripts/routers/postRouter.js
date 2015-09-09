@@ -6,10 +6,16 @@ JournalApp.Routers.PostRouter = Backbone.Router.extend({
   },
 
   routes: {
-    "": "postIndex",
+    "": "root",
+    "posts": "postIndex",
     "posts/new": "newForm",
     "posts/:id": "postShow",
     "posts/:id/edit": "editForm"
+  },
+
+  root: function() {
+    this._currentView && this._currentView.remove();
+    this._currentView = null;
   },
 
   postIndex: function() {
