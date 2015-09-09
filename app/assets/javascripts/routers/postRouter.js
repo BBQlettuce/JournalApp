@@ -1,26 +1,40 @@
 JournalApp.Routers.PostRouter = Backbone.Router.extend({
   initialize: function(options) {
     this.$rootEl = options.$rootEl;
+    this.collection = new JournalApp.Collections.Posts();
+    this.collection.fetch();
   },
 
   routes: {
     "": "postIndex",
-    "posts/:id": "post"
+    "posts/:id": "postShow",
+    "posts/:id/edit": "editForm",
+    "posts/new": "newForm"
   },
 
   postIndex: function() {
     var view = new JournalApp.Views.PostIndex();
-    this._postIndex = view;
+    view.refreshPosts();
     this._swapView(view);
-    this.$rootEl.html(view.$el);
   },
 
-  post: function(id) {
-    var post = this._postIndex.collection.getOrFetch(id);
+  postShow: function(id) {
+    var post = this.collection.getOrFetch(id);
     var view = new JournalApp.Views.PostShow({model: post});
     this._swapView(view);
-    this.$rootEl.html(view.$el);
   },
+
+  editForm: function(id) {
+    var post = this.collection.getOrFetch(id);
+    var view = new JournalApp.Views.PostForm({model: post});
+    this._swapView(view)
+  },
+
+  // newForm: function() {
+  //   var blankPost = new JournalApp.Models.Post();
+  //   var view = new JournalApp.Views.PostForm({model: blankPost, collection: this.collection});
+  //
+  // },
 
   _swapView: function(newView) {
     this._currentView && this._currentView.remove();
